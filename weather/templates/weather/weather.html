@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>theWeather</title>
+    <script src="https://kit.fontawesome.com/af88332bc8.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="outer">
+        <div class="header">
+            <h1>
+                theWeather
+            </h1>
+        </div>
+        <div class="search-city">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="city" placeholder="Search...">
+            </form>
+        </div>
+        <div class="cities-weather-container">
+            <div class="city-name">
+                <span>{{weather.city}}</span>
+            </div>
+            <div class="cities-weather">
+                <div class="cities-weather-item">
+                    <div class="cities-weather-item-date">
+                        <span>Today</span>
+                    </div>
+                    <div class="cities-weather-item-weather">
+                        <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png" alt="">
+                        <div class="cities-weather-item-weather-data">
+                            <span class="description">current</span>
+                            <br>
+                            <span>{{weather.temperature}}°C</span>
+                            <p>{{weather.description}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% for temp, descr, icon, date in weather.another_days %}
+                <div class="cities-weather-item">
+                    <div class="cities-weather-item-date">
+                        <span>{{date}}</span>
+                    </div>
+                    <div class="cities-weather-item-weather">
+                        <img src="http://openweathermap.org/img/wn/{{icon}}.png" alt="">
+                        <div class="cities-weather-item-weather-data">
+                            <span class="description">day/night</span>
+
+                            <span>{{temp}}°C</span>
+                            <p>{{descr}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <footer>
+            <a href="">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a href="https://github.com/daemaks">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://openweathermap.org/api">
+                <span>API</span>
+            </a>
+        </footer>
+    </div>
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
+</body>
+</html>
